@@ -143,15 +143,7 @@ class _AuthFormState extends State<AuthForm> {
             child: RaisedButton(
               color: themeProvider.accentColor,
               onPressed: () {
-                /*setState(() {
-                  usernameValidator.validate();
-                  passwordValidator.validate();
-                });
-                if(usernameValidator.isValid && passwordValidator.isValid) {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  Navigator.of(context).pushReplacementNamed(HomeRoute().route);
-                }*/
-                //Navigator.of(context).pushReplacementNamed(HomeRoute().route);
+                Navigator.of(context).pushNamed("/dashboard");
               },
               elevation: 4,
               shape: RoundedRectangleBorder(

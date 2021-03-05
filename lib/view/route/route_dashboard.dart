@@ -1,24 +1,31 @@
 import 'package:emplog/provider/provider_theme.dart';
+import 'package:emplog/view/widgets/dashboard/widget_attendance.dart';
+import 'package:emplog/view/widgets/dashboard/widget_home.dart';
+import 'package:emplog/view/widgets/dashboard/widget_settings.dart';
+import 'package:emplog/view/widgets/dashboard/widget_shops.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-class HomeRoute extends StatefulWidget {
-  final String route="/home";
+class DashboardRoute extends StatefulWidget {
+  final String route = "/dashboard";
   @override
-  _HomeRouteState createState() => _HomeRouteState();
+  _DashboardRouteState createState() => _DashboardRouteState();
 }
 
-class _HomeRouteState extends State<HomeRoute> {
-  final String route = "/home";
-
+class _DashboardRouteState extends State<DashboardRoute> {
   int _selectedIndex = 0;
 
   bool isFirstTime = true;
 
-  List<Widget> fragments = [];
+  List<Widget> fragments = [
+    HomeRoute(),
+    AttendanceRoute(),
+    ShopsRoute(),
+    SettingsRoute()
+  ];
 
   void _onItemSelected(int index) {
     setState(() {
@@ -39,7 +46,7 @@ class _HomeRouteState extends State<HomeRoute> {
         unselectedItemColor: themeProvider.textColor.withOpacity(.3),
         currentIndex: _selectedIndex,
         onTap: _onItemSelected,
-        backgroundColor: themeProvider.backgroundColor.withOpacity(.5),
+        backgroundColor: themeProvider.accentColor.withOpacity(.01),
         selectedLabelStyle: GoogleFonts.montserrat(
           textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
                 color: themeProvider.textColor,
@@ -55,19 +62,19 @@ class _HomeRouteState extends State<HomeRoute> {
             icon: Icon(
               Icons.home,
             ),
-            label: 'Dashboard',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
+            icon: Icon(MdiIcons.clock),
+            label: 'Attendance',
           ),
           BottomNavigationBarItem(
-            icon: Icon(MdiIcons.heart),
-            label: 'Wishlist',
+            icon: Icon(MdiIcons.store),
+            label: 'Shops',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Account',
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
       ),

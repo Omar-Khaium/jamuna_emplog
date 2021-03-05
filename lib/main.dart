@@ -1,6 +1,6 @@
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/view/route/route_auth.dart';
-import 'package:emplog/view/route/route_home.dart';
+import 'package:emplog/view/route/route_dashboard.dart';
 import 'package:emplog/view/route/route_welcome_screen.dart';
 import 'package:emplog/view/widgets/auth/form_fingerprint_auth.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       home: AuthRoute(),
       routes: {
         AuthRoute().route: (context) => AuthRoute(),
-        HomeRoute().route: (context) => HomeRoute(),
+        DashboardRoute().route: (context) => DashboardRoute(),
         WelcomeRoute().route: (context) => WelcomeRoute(),
         FingerprintAuth().route: (context) => FingerprintAuth(),
       },
