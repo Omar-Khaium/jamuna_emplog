@@ -19,6 +19,7 @@ dependencies:
   hive:
   hive_flutter:
   timelines:
+  local_auth:
 
 dev_dependencies:
   flutter_test:
