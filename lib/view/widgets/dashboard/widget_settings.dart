@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:emplog/provider/provider_auth.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/text_styles.dart';
+import 'package:emplog/view/route/route_activity_log.dart';
 import 'package:emplog/view/route/route_auth.dart';
 import 'package:emplog/view/widgets/dashboard/settings/bottom_sheet_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,6 +61,9 @@ class SettingsFragment extends StatelessWidget {
           trailing: Icon(Icons.arrow_forward_ios_rounded, color: themeProvider.hintColor, size: 16),
           dense: true,
           visualDensity: VisualDensity.compact,
+          onTap: (){
+            Navigator.of(context).pushNamed(ActivityRoute().route);
+          },
         ),
         Divider(),
         ListTile(

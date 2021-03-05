@@ -3,6 +3,7 @@ import 'package:emplog/provider/provider_auth.dart';
 import 'package:emplog/provider/provider_internet.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/model/user.dart';
+import 'package:emplog/view/route/route_activity_log.dart';
 import 'package:emplog/view/route/route_auth.dart';
 import 'package:emplog/view/route/route_dashboard.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
       routes: {
         AuthRoute().route: (context) => AuthRoute(),
         DashboardRoute().route: (context) => DashboardRoute(),
+        ActivityRoute().route: (context) => ActivityRoute(),
       },
     );
   }
