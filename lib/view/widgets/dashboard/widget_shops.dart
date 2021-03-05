@@ -15,7 +15,7 @@ class ShopsFragment extends StatelessWidget {
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           physics: ScrollPhysics(),
-          itemCount: 8,
+          itemCount: 10,
           itemBuilder: (BuildContext context, int index) {
             return Container(
               margin: EdgeInsets.all(8),

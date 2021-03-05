@@ -63,12 +63,3 @@ class Helper {
     return date.month > DateTime.now().month;
   }
 }
-
-DateTime stringToDateTime(String date) {
-  DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
-  return dateTime;
-}
-
-String dateTimeToStringDate(DateTime date, String pattern) => DateFormat(pattern).format(date);
-
-String dateTimeToStringTime(DateTime date, String pattern) => DateFormat(pattern).format(date);
