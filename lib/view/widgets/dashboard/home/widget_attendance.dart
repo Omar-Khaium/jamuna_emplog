@@ -74,7 +74,7 @@ class AttendanceHistory extends StatelessWidget {
       clipBehavior: Clip.antiAliasWithSaveLayer,
       color: themeProvider.backgroundColor,
       shadowColor: themeProvider.accentColor.withOpacity(.25),
-      elevation: 2,
+      elevation: 3,
       shape: BoxShape.rectangle,
     );
   }
