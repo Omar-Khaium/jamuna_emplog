@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AuthRoute extends StatelessWidget {
-  final String route = "/email";
+  final String route = "/auth";
 
   @override
   Widget build(BuildContext context) {

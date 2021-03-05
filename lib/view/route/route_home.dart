@@ -6,6 +6,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 
 class HomeRoute extends StatefulWidget {
+  final String route="/home";
   @override
   _HomeRouteState createState() => _HomeRouteState();
 }
@@ -17,9 +18,7 @@ class _HomeRouteState extends State<HomeRoute> {
 
   bool isFirstTime = true;
 
-  List<Widget> fragments = [
-
-  ];
+  List<Widget> fragments = [];
 
   void _onItemSelected(int index) {
     setState(() {
@@ -43,13 +42,13 @@ class _HomeRouteState extends State<HomeRoute> {
         backgroundColor: themeProvider.backgroundColor.withOpacity(.5),
         selectedLabelStyle: GoogleFonts.montserrat(
           textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-            color: themeProvider.textColor,
-          ),
+                color: themeProvider.textColor,
+              ),
         ),
         unselectedLabelStyle: GoogleFonts.montserrat(
           textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-            color: themeProvider.textColor,
-          ),
+                color: themeProvider.textColor,
+              ),
         ),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

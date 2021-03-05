@@ -2,7 +2,6 @@ import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/constants.dart';
 import 'package:emplog/utils/form_validator.dart';
 import 'package:emplog/utils/text_styles.dart';
-import 'package:emplog/view/route/route_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

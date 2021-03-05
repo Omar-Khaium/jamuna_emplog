@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       home: AuthRoute(),
       routes: {
         AuthRoute().route: (context) => AuthRoute(),
-        //HomeRoute().route: (context) => HomeRoute(),
+        HomeRoute().route: (context) => HomeRoute(),
         WelcomeRoute().route: (context) => WelcomeRoute(),
         FingerprintAuth().route: (context) => FingerprintAuth(),
       },
