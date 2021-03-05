@@ -27,72 +27,107 @@ class SettingsFragment extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: "Api.fileUrl(authProvider.user.profilePicture)",
               fit: BoxFit.cover,
-              placeholder: (context, url) => Center(child: CupertinoActivityIndicator()),
-              errorWidget: (context, url, error) => Icon(Icons.person, color: themeProvider.accentColor),
+              placeholder: (context, url) =>
+                  Center(child: CupertinoActivityIndicator()),
+              errorWidget: (context, url, error) =>
+                  Icon(Icons.person, color: themeProvider.accentColor),
             ),
           ),
-          title: Text(authProvider.user.name, style: TextStyles.body(context: context, color: themeProvider.textColor)),
-          subtitle: Text("view profile", style: TextStyles.caption(context: context, color: themeProvider.hintColor)),
-          trailing: Icon(Icons.arrow_forward_ios_rounded, color: themeProvider.hintColor, size: 16),
+          title: Text(authProvider.user.name,
+              style: TextStyles.body(
+                  context: context, color: themeProvider.textColor)),
+          subtitle: Text("view profile",
+              style: TextStyles.caption(
+                  context: context, color: themeProvider.hintColor)),
+          trailing: Icon(Icons.arrow_forward_ios_rounded,
+              color: themeProvider.hintColor, size: 16),
           dense: false,
           visualDensity: VisualDensity.comfortable,
         ),
         Divider(),
         ListTile(
           leading: Icon(Icons.note_outlined, color: themeProvider.textColor),
-          title: Text("Notes", style: TextStyles.body(context: context, color: themeProvider.textColor)),
-          trailing: Icon(Icons.arrow_forward_ios_rounded, color: themeProvider.hintColor, size: 16),
+          title: Text("Notes",
+              style: TextStyles.body(
+                  context: context, color: themeProvider.textColor)),
+          trailing: Icon(Icons.arrow_forward_ios_rounded,
+              color: themeProvider.hintColor, size: 16),
           dense: true,
           visualDensity: VisualDensity.compact,
         ),
         Divider(),
         ListTile(
           leading: Icon(Icons.alarm_rounded, color: themeProvider.textColor),
-          title: Text("Reminders", style: TextStyles.body(context: context, color: themeProvider.textColor)),
-          trailing: Icon(Icons.arrow_forward_ios_rounded, color: themeProvider.hintColor, size: 16),
+          title: Text("Reminders",
+              style: TextStyles.body(
+                  context: context, color: themeProvider.textColor)),
+          trailing: Icon(Icons.arrow_forward_ios_rounded,
+              color: themeProvider.hintColor, size: 16),
           dense: true,
           visualDensity: VisualDensity.compact,
         ),
         Divider(),
         ListTile(
-          leading: Icon(Icons.local_activity_outlined, color: themeProvider.textColor),
-          title: Text("Activity log", style: TextStyles.body(context: context, color: themeProvider.textColor)),
-          trailing: Icon(Icons.arrow_forward_ios_rounded, color: themeProvider.hintColor, size: 16),
+          onTap: () {
+            Navigator.pushNamed(context, "/activity_log");
+          },
+          leading: Icon(Icons.local_activity_outlined,
+              color: themeProvider.textColor),
+          title: Text("Activity log",
+              style: TextStyles.body(
+                  context: context, color: themeProvider.textColor)),
+          trailing: Icon(Icons.arrow_forward_ios_rounded,
+              color: themeProvider.hintColor, size: 16),
           dense: true,
           visualDensity: VisualDensity.compact,
         ),
         Divider(),
         ListTile(
           leading: Icon(Icons.lock_outline, color: themeProvider.textColor),
-          title: Text("Change password", style: TextStyles.body(context: context, color: themeProvider.textColor)),
-          trailing: Icon(Icons.arrow_forward_ios_rounded, color: themeProvider.hintColor, size: 16),
+          title: Text("Change password",
+              style: TextStyles.body(
+                  context: context, color: themeProvider.textColor)),
+          trailing: Icon(Icons.arrow_forward_ios_rounded,
+              color: themeProvider.hintColor, size: 16),
           dense: true,
           visualDensity: VisualDensity.compact,
         ),
         Divider(),
         ListTile(
-          leading: Icon(Icons.color_lens_outlined, color: themeProvider.textColor),
-          title: Text("Change theme", style: TextStyles.body(context: context, color: themeProvider.textColor)),
-          trailing: Icon(Icons.arrow_forward_ios_rounded, color: themeProvider.hintColor, size: 16),
+          leading:
+              Icon(Icons.color_lens_outlined, color: themeProvider.textColor),
+          title: Text("Change theme",
+              style: TextStyles.body(
+                  context: context, color: themeProvider.textColor)),
+          trailing: Icon(Icons.arrow_forward_ios_rounded,
+              color: themeProvider.hintColor, size: 16),
           dense: true,
           visualDensity: VisualDensity.compact,
-          onTap: (){
-            showModalBottomSheet(context: context, builder: (context)=>ThemeBottomSheet());
+          onTap: () {
+            showModalBottomSheet(
+                context: context, builder: (context) => ThemeBottomSheet());
           },
         ),
         Divider(),
         ListTile(
-          leading: Icon(Icons.privacy_tip_outlined, color: themeProvider.textColor),
-          title: Text("Privacy policy", style: TextStyles.body(context: context, color: themeProvider.textColor)),
-          trailing: Icon(Icons.arrow_forward_ios_rounded, color: themeProvider.hintColor, size: 16),
+          leading:
+              Icon(Icons.privacy_tip_outlined, color: themeProvider.textColor),
+          title: Text("Privacy policy",
+              style: TextStyles.body(
+                  context: context, color: themeProvider.textColor)),
+          trailing: Icon(Icons.arrow_forward_ios_rounded,
+              color: themeProvider.hintColor, size: 16),
           dense: true,
           visualDensity: VisualDensity.compact,
         ),
         Divider(),
         ListTile(
           leading: Icon(Icons.logout, color: themeProvider.textColor),
-          title: Text("Log out", style: TextStyles.body(context: context, color: themeProvider.textColor)),
-          trailing: Icon(Icons.arrow_forward_ios_rounded, color: themeProvider.hintColor, size: 16),
+          title: Text("Log out",
+              style: TextStyles.body(
+                  context: context, color: themeProvider.textColor)),
+          trailing: Icon(Icons.arrow_forward_ios_rounded,
+              color: themeProvider.hintColor, size: 16),
           dense: true,
           visualDensity: VisualDensity.compact,
           onTap: () {
@@ -107,9 +142,18 @@ class SettingsFragment extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("v1.0", style: TextStyles.overline(context: context, color: themeProvider.textColor), textAlign: TextAlign.center),
-              Container(child: Icon(Icons.fiber_manual_record, color: themeProvider.shadowColor, size: 11), margin: EdgeInsets.symmetric(horizontal: 12)),
-              Text("Powered by Jamuna Group", style: TextStyles.overline(context: context, color: themeProvider.textColor), textAlign: TextAlign.center),
+              Text("v1.0",
+                  style: TextStyles.overline(
+                      context: context, color: themeProvider.textColor),
+                  textAlign: TextAlign.center),
+              Container(
+                  child: Icon(Icons.fiber_manual_record,
+                      color: themeProvider.shadowColor, size: 11),
+                  margin: EdgeInsets.symmetric(horizontal: 12)),
+              Text("Powered by Jamuna Group",
+                  style: TextStyles.overline(
+                      context: context, color: themeProvider.textColor),
+                  textAlign: TextAlign.center),
             ],
           ),
         ),
