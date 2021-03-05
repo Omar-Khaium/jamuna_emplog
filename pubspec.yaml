@@ -1,0 +1,32 @@
+name: emplog
+description: A new Flutter application.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider:
+  http:
+  google_fonts:
+  cached_network_image:
+  material_design_icons_flutter:
+  intl:
+  shimmer:
+  hive:
+  hive_flutter:
+  timelines:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  hive_generator:
+  build_runner:
+
+flutter:
+  uses-material-design: true
+  assets:
+    - images/
