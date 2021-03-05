@@ -42,44 +42,6 @@ class ReminderHistory extends StatelessWidget {
                       context: context, color: themeProvider.hintColor)),
               trailing: Icon(MdiIcons.reminder, color: themeProvider.iconColor),
             ),
-            ListTile(
-              contentPadding: EdgeInsets.all(0),
-              dense: true,
-              visualDensity: VisualDensity.compact,
-              leading: Icon(
-                Icons.note,
-                color: themeProvider.accentColor,
-              ),
-              title: Text(
-                "Shop is closed since 24 Feb",
-                style: TextStyles.body(
-                    context: context, color: themeProvider.textColor),
-                overflow: TextOverflow.ellipsis,
-              ),
-              subtitle: Text("03/02/2021 at 9.23 pm",
-                  style: TextStyles.caption(
-                      context: context, color: themeProvider.hintColor)),
-              trailing: Icon(MdiIcons.reminder, color: themeProvider.iconColor),
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.all(0),
-              dense: true,
-              visualDensity: VisualDensity.compact,
-              leading: Icon(
-                Icons.note,
-                color: themeProvider.accentColor,
-              ),
-              title: Text(
-                "Test note",
-                style: TextStyles.body(
-                    context: context, color: themeProvider.textColor),
-                overflow: TextOverflow.ellipsis,
-              ),
-              subtitle: Text("03/02/2021 at 9.23 pm",
-                  style: TextStyles.caption(
-                      context: context, color: themeProvider.hintColor)),
-              trailing: Icon(MdiIcons.reminder, color: themeProvider.iconColor),
-            ),
           ],
         ),
       ),

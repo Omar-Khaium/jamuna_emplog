@@ -5,6 +5,7 @@ class AttendanceItem {
   String time;
   AttendanceType event;
   String duration;
+  String location;
 
-  AttendanceItem({@required this.time, @required this.event, @required this.duration});
+  AttendanceItem({@required this.time, @required this.event, @required this.duration, @required this.location});
 }

@@ -1,9 +1,8 @@
-import 'package:emplog/model/user.dart';
 import 'package:emplog/provider/provider_attendance.dart';
 import 'package:emplog/provider/provider_auth.dart';
 import 'package:emplog/provider/provider_internet.dart';
 import 'package:emplog/provider/provider_theme.dart';
-import 'package:emplog/view/route/route_activity_log.dart';
+import 'package:emplog/model/user.dart';
 import 'package:emplog/view/route/route_auth.dart';
 import 'package:emplog/view/route/route_dashboard.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +45,7 @@ class MyApp extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             primary: themeProvider.accentColor,
             elevation: 4,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           ),
         ),
         textSelectionTheme: TextSelectionThemeData(
@@ -55,15 +53,12 @@ class MyApp extends StatelessWidget {
         ),
         iconTheme: IconThemeData(color: themeProvider.iconColor, size: 20),
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        appBarTheme: AppBarTheme(
-            iconTheme: IconThemeData(color: themeProvider.accentColor),
-            actionsIconTheme: IconThemeData(color: themeProvider.accentColor)),
+        appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: themeProvider.accentColor), actionsIconTheme: IconThemeData(color: themeProvider.accentColor)),
       ),
       home: LauncherRoute(),
       routes: {
         AuthRoute().route: (context) => AuthRoute(),
         DashboardRoute().route: (context) => DashboardRoute(),
-        ActivityRoute().route: (context) => ActivityRoute(),
       },
     );
   }

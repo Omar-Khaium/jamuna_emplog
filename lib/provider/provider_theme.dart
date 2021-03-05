@@ -9,9 +9,7 @@ class ThemeProvider extends ChangeNotifier {
   Color shadowColor = Colors.black12;
   Color hintColor = Colors.grey;
   Color errorColor = Colors.red.shade300;
-  Color tagColor = Colors.teal.withOpacity(.3);
-  Color redColor = Colors.red;
-  Color greenColor = Colors.green;
+  Color tagColor = Colors.teal.withOpacity(.05);
 
   applyTheme(Color color) {
     accentColor = color;
