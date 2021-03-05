@@ -1,4 +1,5 @@
 import 'package:emplog/provider/provider_auth.dart';
+import 'package:emplog/provider/provider_internet.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/model/user.dart';
 import 'package:emplog/view/route/route_auth.dart';
@@ -18,6 +19,7 @@ void main() async {
       child: MyApp(),
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => InternetProvider()),
         ChangeNotifierProvider(create: (context) => AuthProvider()),
       ],
     ),

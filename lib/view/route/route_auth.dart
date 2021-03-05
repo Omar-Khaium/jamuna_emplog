@@ -19,7 +19,7 @@ class AuthRoute extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light
+        statusBarIconBrightness: Brightness.dark
       ),
       child: Scaffold(
         backgroundColor: themeProvider.backgroundColor,

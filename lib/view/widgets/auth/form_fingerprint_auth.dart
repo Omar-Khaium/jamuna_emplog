@@ -51,7 +51,7 @@ class _BiometricFormState extends State<BiometricForm> {
 
   Future<void> authenticateUser() async {
     try {
-      await auth.authenticateWithBiometrics(localizedReason: "authenticate to login", useErrorDialogs: true, stickyAuth: true).then((value) {
+      await auth.authenticateWithBiometrics(localizedReason: "Welcome to Jamuna Group", useErrorDialogs: true, stickyAuth: true).then((value) {
         if (value) {
           Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
         }

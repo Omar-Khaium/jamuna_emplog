@@ -1,3 +1,4 @@
+import 'package:emplog/provider/provider_internet.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/text_styles.dart';
 import 'package:emplog/view/widgets/dashboard/widget_attendance.dart';
@@ -29,11 +30,46 @@ class _DashboardRouteState extends State<DashboardRoute> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final internetProvider = Provider.of<InternetProvider>(context);
+    internetProvider.listen();
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.light),
+      value: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
       child: Scaffold(
         backgroundColor: themeProvider.backgroundColor,
-        body: fragments[currentIndex],
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          margin: EdgeInsets.only(bottom: kToolbarHeight),
+          child: Stack(
+            children: [
+              Positioned(
+                child: fragments[currentIndex],
+                bottom: internetProvider.connected ? 0 : 42,
+                right: 0,
+                left: 0,
+                top: 0,
+              ),
+              Visibility(
+                visible: internetProvider.notConnected,
+                child: Positioned(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    width: MediaQuery.of(context).size.width,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade50,
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text("No internet", style: TextStyles.caption(context: context, color: Colors.red)),
+                  ),
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                ),
+              ),
+            ],
+          ),
+        ),
         resizeToAvoidBottomInset: true,
         extendBodyBehindAppBar: true,
         extendBody: true,

@@ -32,6 +32,7 @@ class AuthProvider extends ChangeNotifier {
       user.email = email;
       user.password = password;
       user.isAuthenticated = true;
+      user.isFingerPrintSaved = true;
       saveChanges();
       return true;
     } catch (error) {
@@ -49,5 +50,10 @@ class AuthProvider extends ChangeNotifier {
     } else {
       userBox.putAt(0, user);
     }
+  }
+
+  logout() {
+    user.isAuthenticated = false;
+    saveChanges();
   }
 }
