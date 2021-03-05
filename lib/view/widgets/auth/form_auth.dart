@@ -152,7 +152,7 @@ class _AuthFormState extends State<AuthForm> {
                   FocusScope.of(context).requestFocus(FocusNode());
                   Navigator.of(context).pushReplacementNamed(HomeRoute().route);
                 }*/
-                Navigator.of(context).pushReplacementNamed(HomeRoute().route);
+                //Navigator.of(context).pushReplacementNamed(HomeRoute().route);
               },
               elevation: 4,
               shape: RoundedRectangleBorder(
