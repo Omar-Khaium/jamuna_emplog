@@ -25,7 +25,11 @@ class _BiometricFormState extends State<BiometricForm> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return InkWell(
-      child: Icon(Icons.fingerprint, size: 64, color: isAvailable ? themeProvider.accentColor : themeProvider.hintColor),
+      child: Icon(Icons.fingerprint,
+          size: 64,
+          color: isAvailable
+              ? themeProvider.accentColor
+              : themeProvider.hintColor),
       onTap: () {
         authenticateUser();
       },
@@ -51,7 +55,12 @@ class _BiometricFormState extends State<BiometricForm> {
 
   Future<void> authenticateUser() async {
     try {
-      await auth.authenticateWithBiometrics(localizedReason: "Welcome to Jamuna Group", useErrorDialogs: true, stickyAuth: true).then((value) {
+      await auth
+          .authenticateWithBiometrics(
+              localizedReason: "Welcome to Jamuna Group",
+              useErrorDialogs: true,
+              stickyAuth: true)
+          .then((value) {
         if (value) {
           Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
         }
