@@ -1,17 +1,24 @@
+import 'package:emplog/provider/provider_auth.dart';
 import 'package:emplog/provider/provider_theme.dart';
+import 'package:emplog/model/user.dart';
 import 'package:emplog/view/route/route_auth.dart';
 import 'package:emplog/view/route/route_dashboard.dart';
-import 'package:emplog/view/route/route_welcome_screen.dart';
-import 'package:emplog/view/widgets/auth/form_fingerprint_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final directory = await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  Hive.registerAdapter(UserAdapter());
   runApp(
     MultiProvider(
       child: MyApp(),
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
       ],
     ),
   );
@@ -22,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
-      title: 'JAS',
+      title: 'Attendance',
       theme: ThemeData(
         primarySwatch: themeProvider.accentColor,
         accentColor: themeProvider.accentColor,
@@ -37,31 +44,34 @@ class MyApp extends StatelessWidget {
             iconTheme: IconThemeData(color: themeProvider.accentColor),
             actionsIconTheme: IconThemeData(color: themeProvider.accentColor)),
       ),
-      home: AuthRoute(),
+      home: LauncherRoute(),
       routes: {
         AuthRoute().route: (context) => AuthRoute(),
         DashboardRoute().route: (context) => DashboardRoute(),
-        WelcomeRoute().route: (context) => WelcomeRoute(),
-        FingerprintAuth().route: (context) => FingerprintAuth(),
       },
     );
   }
 }
 
 // ignore: must_be_immutable
-class LauncherRoute extends StatelessWidget {
-  bool isFirstTime = true;
+class LauncherRoute extends StatefulWidget {
+  @override
+  _LauncherRouteState createState() => _LauncherRouteState();
+}
+
+class _LauncherRouteState extends State<LauncherRoute> {
+  @override
+  void initState() {
+
+    Future.delayed(Duration.zero, () {
+      redirect();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-
-    if (isFirstTime) {
-      isFirstTime = false;
-      Future.delayed(Duration(milliseconds: 1500), () {
-        Navigator.of(context).pushReplacementNamed(AuthRoute().route);
-      });
-    }
 
     return Scaffold(
       backgroundColor: themeProvider.backgroundColor,
@@ -71,5 +81,22 @@ class LauncherRoute extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  redirect() async {
+    try {
+      Box<User> userBox = await Hive.openBox("users");
+      User user;
+      if (userBox.length > 0) {
+        user = userBox.getAt(0);
+      }
+      Navigator.of(context).pushReplacementNamed(user == null
+          ? AuthRoute().route
+          : user.isAuthenticated ?? false
+          ? DashboardRoute().route
+          : AuthRoute().route);
+    } catch (error) {
+      Navigator.of(context).pushReplacementNamed(AuthRoute().route);
+    }
   }
 }

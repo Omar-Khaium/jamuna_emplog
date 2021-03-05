@@ -1,85 +1,69 @@
 import 'dart:async';
 
+import 'package:emplog/provider/provider_theme.dart';
+import 'package:emplog/view/route/route_home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:provider/provider.dart';
 
-class FingerprintAuth extends StatefulWidget {
-  final String route = "/finger_auth";
+class BiometricForm extends StatefulWidget {
   @override
-  _FingerprintAuthState createState() => _FingerprintAuthState();
+  _BiometricFormState createState() => _BiometricFormState();
 }
 
-class _FingerprintAuthState extends State<FingerprintAuth> {
-  final LocalAuthentication _localAuthentication = LocalAuthentication();
-  Future<bool> _isBiometricAvailable() async {
-    bool isAvailable = false;
-    try {
-      isAvailable = await _localAuthentication.canCheckBiometrics;
-    } on PlatformException catch (e) {
-      print(e);
-    }
+class _BiometricFormState extends State<BiometricForm> {
+  final LocalAuthentication auth = LocalAuthentication();
+  bool isAvailable = false;
 
-    if (!mounted) return isAvailable;
-
-    isAvailable
-        ? print('Biometric is available!')
-        : print('Biometric is unavailable.');
-
-    return isAvailable;
-  }
-
-  Future<void> _getListOfBiometricTypes() async {
-    List<BiometricType> listOfBiometrics;
-    try {
-      listOfBiometrics = await _localAuthentication.getAvailableBiometrics();
-    } on PlatformException catch (e) {
-      print(e);
-    }
-
-    if (!mounted) return;
-
-    print(listOfBiometrics);
-  }
-
-  Future<void> _authenticateUser() async {
-    bool isAuthenticated = false;
-    try {
-      isAuthenticated = await _localAuthentication.authenticateWithBiometrics(
-        localizedReason:
-            "Please authenticate to view your transaction overview",
-        useErrorDialogs: true,
-        stickyAuth: true,
-      );
-    } on PlatformException catch (e) {
-      print(e);
-    }
-
-    if (!mounted) return;
-
-    isAuthenticated
-        ? print('User is authenticated!')
-        : print('User is not authenticated.');
-
-    if (isAuthenticated) {
-      Navigator.pushNamed(context, "/home");
-    }
+  @override
+  void initState() {
+    isBiometricAvailable();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 64,
-      height: 36,
-      child: RaisedButton(
-        onPressed: () async {
-          if (await _isBiometricAvailable()) {
-            await _getListOfBiometricTypes();
-            await _authenticateUser();
-          }
-        },
-        child: Text("sad"),
-      ),
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return InkWell(
+      child: Icon(Icons.fingerprint, size: 64, color: isAvailable ? themeProvider.accentColor : themeProvider.hintColor),
+      onTap: () {
+        authenticateUser();
+      },
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      focusColor: Colors.transparent,
     );
+  }
+
+  Future<void> isBiometricAvailable() async {
+    bool flag = false;
+    try {
+      flag = await auth.canCheckBiometrics;
+    } catch (e) {
+      setState(() async {
+        flag = false;
+      });
+    }
+    setState(() {
+      isAvailable = flag;
+    });
+  }
+
+  Future<void> authenticateUser() async {
+    try {
+      await auth.authenticateWithBiometrics(localizedReason: "authenticate to login", useErrorDialogs: true, stickyAuth: true).then((value) {
+        if (value) {
+          Navigator.of(context).pushReplacementNamed(HomeRoute().route);
+        }
+      });
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Something went wrong"),
+          content: Text(e.message),
+        ),
+      );
+    }
   }
 }

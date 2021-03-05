@@ -1,8 +1,9 @@
+import 'package:emplog/provider/provider_auth.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/constants.dart';
 import 'package:emplog/utils/form_validator.dart';
 import 'package:emplog/utils/text_styles.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:emplog/view/route/route_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,7 @@ class _AuthFormState extends State<AuthForm> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
     return Container(
       margin: EdgeInsets.all(16),
       child: Column(
@@ -140,10 +142,21 @@ class _AuthFormState extends State<AuthForm> {
           SizedBox(height: 24),
           Container(
             width: MediaQuery.of(context).size.width,
+            height: 48,
             child: RaisedButton(
               color: themeProvider.accentColor,
-              onPressed: () {
-                Navigator.of(context).pushNamed("/dashboard");
+              onPressed: () async {
+                setState(() {
+                  usernameValidator.validate();
+                  passwordValidator.validate();
+                });
+                if(usernameValidator.isValid && passwordValidator.isValid) {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  bool result = await authProvider.loginWithCredential(usernameController.text, passwordController.text);
+                  if(result) {
+                    Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
+                  }
+                }
               },
               elevation: 4,
               shape: RoundedRectangleBorder(

@@ -6,3 +6,4 @@ enum FormType {
   zip,
   password,
 }
+const int tableUser = 0;

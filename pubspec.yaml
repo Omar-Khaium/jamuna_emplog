@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider:
+  path_provider:
   http:
   google_fonts:
   cached_network_image:
