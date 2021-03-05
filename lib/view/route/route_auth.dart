@@ -18,8 +18,9 @@ class AuthRoute extends StatelessWidget {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark),
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark
+      ),
       child: Scaffold(
         backgroundColor: themeProvider.backgroundColor,
         body: InkWell(
@@ -33,14 +34,8 @@ class AuthRoute extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 AuthForm(),
-                Visibility(
-                    child: Container(
-                        child: Divider(),
-                        margin: EdgeInsets.symmetric(vertical: 24)),
-                    visible: authProvider.hasPreviousAuth),
-                Visibility(
-                    child: BiometricForm(),
-                    visible: authProvider.hasPreviousAuth),
+                Visibility(child: Container(child: Divider(), margin: EdgeInsets.symmetric(vertical: 24)), visible: authProvider.hasPreviousAuth),
+                Visibility(child: BiometricForm(), visible: authProvider.hasPreviousAuth),
               ],
             ),
           ),
