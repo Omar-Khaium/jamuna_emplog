@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AttendanceRoute extends StatelessWidget {
+class AttendanceFragment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

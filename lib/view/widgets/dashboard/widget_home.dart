@@ -3,7 +3,7 @@ import 'package:emplog/view/widgets/dashboard/home/widget_logs.dart';
 import 'package:emplog/view/widgets/dashboard/home/widget_reminders.dart';
 import 'package:flutter/material.dart';
 
-class HomeRoute extends StatelessWidget {
+class HomeFragment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

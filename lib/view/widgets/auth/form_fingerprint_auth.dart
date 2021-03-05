@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:emplog/provider/provider_theme.dart';
-import 'package:emplog/view/route/route_home.dart';
+import 'package:emplog/view/route/route_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +53,7 @@ class _BiometricFormState extends State<BiometricForm> {
     try {
       await auth.authenticateWithBiometrics(localizedReason: "authenticate to login", useErrorDialogs: true, stickyAuth: true).then((value) {
         if (value) {
-          Navigator.of(context).pushReplacementNamed(HomeRoute().route);
+          Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
         }
       });
     } catch (e) {

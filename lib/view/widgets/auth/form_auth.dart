@@ -143,8 +143,7 @@ class _AuthFormState extends State<AuthForm> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: 48,
-            child: RaisedButton(
-              color: themeProvider.accentColor,
+            child: ElevatedButton(
               onPressed: () async {
                 setState(() {
                   usernameValidator.validate();
@@ -158,9 +157,6 @@ class _AuthFormState extends State<AuthForm> {
                   }
                 }
               },
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4)),
               child: Text(
                 "Login".toUpperCase(),
                 style: TextStyles.body(context: context, color: Colors.white),

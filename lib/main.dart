@@ -37,12 +37,19 @@ class MyApp extends StatelessWidget {
         canvasColor: themeProvider.backgroundColor,
         shadowColor: themeProvider.shadowColor,
         indicatorColor: themeProvider.accentColor,
-        cursorColor: themeProvider.accentColor,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            primary: themeProvider.accentColor,
+            elevation: 4,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          ),
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: themeProvider.accentColor,
+        ),
         iconTheme: IconThemeData(color: themeProvider.iconColor, size: 20),
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        appBarTheme: AppBarTheme(
-            iconTheme: IconThemeData(color: themeProvider.accentColor),
-            actionsIconTheme: IconThemeData(color: themeProvider.accentColor)),
+        appBarTheme: AppBarTheme(iconTheme: IconThemeData(color: themeProvider.accentColor), actionsIconTheme: IconThemeData(color: themeProvider.accentColor)),
       ),
       home: LauncherRoute(),
       routes: {
@@ -62,7 +69,6 @@ class LauncherRoute extends StatefulWidget {
 class _LauncherRouteState extends State<LauncherRoute> {
   @override
   void initState() {
-
     Future.delayed(Duration.zero, () {
       redirect();
     });
@@ -93,8 +99,8 @@ class _LauncherRouteState extends State<LauncherRoute> {
       Navigator.of(context).pushReplacementNamed(user == null
           ? AuthRoute().route
           : user.isAuthenticated ?? false
-          ? DashboardRoute().route
-          : AuthRoute().route);
+              ? DashboardRoute().route
+              : AuthRoute().route);
     } catch (error) {
       Navigator.of(context).pushReplacementNamed(AuthRoute().route);
     }

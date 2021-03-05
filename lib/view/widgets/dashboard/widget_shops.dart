@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ShopsRoute extends StatelessWidget {
+class ShopsFragment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
