@@ -1,7 +1,7 @@
 import 'package:emplog/provider/provider_internet.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/text_styles.dart';
-import 'package:emplog/view/widgets/dashboard/attendance/widget_attendance.dart';
+import 'package:emplog/view/widgets/dashboard/widget_attendance.dart';
 import 'package:emplog/view/widgets/dashboard/widget_home.dart';
 import 'package:emplog/view/widgets/dashboard/widget_settings.dart';
 import 'package:emplog/view/widgets/dashboard/widget_shops.dart';
@@ -33,9 +33,7 @@ class _DashboardRouteState extends State<DashboardRoute> {
     final internetProvider = Provider.of<InternetProvider>(context);
     internetProvider.listen();
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark),
+      value: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
       child: Scaffold(
         backgroundColor: themeProvider.backgroundColor,
         body: Container(
@@ -62,9 +60,7 @@ class _DashboardRouteState extends State<DashboardRoute> {
                       color: Colors.red.shade50,
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text("No internet",
-                        style: TextStyles.caption(
-                            context: context, color: Colors.red)),
+                    child: Text("No internet", style: TextStyles.caption(context: context, color: Colors.red)),
                   ),
                   bottom: 0,
                   right: 0,
@@ -88,17 +84,13 @@ class _DashboardRouteState extends State<DashboardRoute> {
             });
           },
           backgroundColor: themeProvider.secondaryColor,
-          selectedLabelStyle: TextStyles.caption(
-              context: context, color: themeProvider.accentColor),
-          unselectedLabelStyle: TextStyles.caption(
-              context: context, color: themeProvider.hintColor),
+          selectedLabelStyle: TextStyles.caption(context: context, color: themeProvider.accentColor),
+          unselectedLabelStyle: TextStyles.caption(context: context, color: themeProvider.hintColor),
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(MdiIcons.clock), label: 'Attendance'),
+            BottomNavigationBarItem(icon: Icon(MdiIcons.clock), label: 'Attendance'),
             BottomNavigationBarItem(icon: Icon(MdiIcons.store), label: 'Shops'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: 'Settings'),
+            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
           ],
         ),
       ),
