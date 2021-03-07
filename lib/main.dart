@@ -1,8 +1,9 @@
+import 'package:emplog/model/db/attendance.dart';
 import 'package:emplog/provider/provider_attendance.dart';
 import 'package:emplog/provider/provider_auth.dart';
 import 'package:emplog/provider/provider_internet.dart';
 import 'package:emplog/provider/provider_theme.dart';
-import 'package:emplog/model/user.dart';
+import 'package:emplog/model/db/user.dart';
 import 'package:emplog/view/route/route_activity_log.dart';
 import 'package:emplog/view/route/route_auth.dart';
 import 'package:emplog/view/route/route_dashboard.dart';
@@ -16,6 +17,7 @@ void main() async {
   final directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(AttendanceAdapter());
   runApp(
     MultiProvider(
       child: MyApp(),
@@ -35,6 +37,7 @@ class MyApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       title: 'Attendance',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: themeProvider.accentColor,
         accentColor: themeProvider.accentColor,
@@ -98,6 +101,7 @@ class _LauncherRouteState extends State<LauncherRoute> {
   redirect() async {
     try {
       Box<User> userBox = await Hive.openBox("users");
+      Box<Attendance> attendanceBox = await Hive.openBox("attendances");
       User user;
       if (userBox.length > 0) {
         user = userBox.getAt(0);

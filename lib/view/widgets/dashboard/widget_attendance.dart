@@ -1,9 +1,12 @@
-import 'package:emplog/model/attendance.dart';
+import 'package:emplog/model/db/attendance.dart';
+import 'package:emplog/model/pretty_attendance.dart';
 import 'package:emplog/provider/provider_attendance.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/constants.dart';
 import 'package:emplog/utils/text_styles.dart';
+import 'package:emplog/view/widgets/dashboard/attendance/widget_checkin.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AttendanceFragment extends StatelessWidget {
@@ -11,11 +14,7 @@ class AttendanceFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final attendanceProvider = Provider.of<AttendanceProvider>(context);
-    Future.delayed(Duration(milliseconds: 0), () {
-      if (attendanceProvider.items.isEmpty) {
-        attendanceProvider.loadAttendances();
-      }
-    });
+    attendanceProvider.init();
     return Scaffold(
       backgroundColor: themeProvider.backgroundColor,
       appBar: AppBar(
@@ -35,7 +34,7 @@ class AttendanceFragment extends StatelessWidget {
         physics: AlwaysScrollableScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 16),
         itemBuilder: (context, index) {
-          Attendance attendance = attendanceProvider.getAll()[index];
+          PrettyAttendance attendance = attendanceProvider.getAll()[index];
           return Container(
             margin: EdgeInsets.only(top: 12),
             child: Column(
@@ -44,37 +43,60 @@ class AttendanceFragment extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  attendance.dateTime,
+                  DateFormat("dd/MM/yyyy").format(DateFormat("yyyy-MM-dd HH:mm:ss").parse(attendance.dateTime)),
                   style: TextStyles.body(context: context, color: themeProvider.hintColor),
                 ),
                 Visibility(
-                  visible: attendance.items!=null,
+                  visible: attendance.items != null,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: attendance.items.map((item) => ListTile(
-                      visualDensity: VisualDensity.compact,
-                      dense: true,
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.grey.shade50,
-                        radius: 16,
-                        child: Icon(
-                          item.event == AttendanceType.In ? Icons.north_east : Icons.south_east,
-                          color: item.event == AttendanceType.In ? Colors.green : Colors.red,
-                        ),
-                      ),
-                      title: Text(
-                        item.time,
-                        style: TextStyles.body(context: context, color: themeProvider.textColor),
-                      ),
-                      subtitle: Text(
-                        item.location,
-                        style: TextStyles.caption(context: context, color: themeProvider.hintColor),
-                      ),
-                      trailing: item.event == AttendanceType.In ? Text(item.duration,
-                        style: TextStyles.caption(context: context, color: themeProvider.hintColor),
-                      ) : null,
-                      contentPadding: EdgeInsets.zero,
-                    )).toList(),
+                    children: attendance.items
+                        .map((item) => ListTile(
+                              visualDensity: VisualDensity.compact,
+                              dense: true,
+                              leading: CircleAvatar(
+                                backgroundColor: item.event == AttendanceType.In
+                                    ? Colors.green.shade50
+                                    : item.event == AttendanceType.Out
+                                        ? Colors.red.shade50
+                                        : Colors.grey.shade50,
+                                radius: 16,
+                                child: Icon(
+                                  item.event == AttendanceType.In
+                                      ? Icons.south_east
+                                      : item.event == AttendanceType.Out
+                                          ? Icons.north_east
+                                          : Icons.store_mall_directory_outlined,
+                                  color: item.event == AttendanceType.In
+                                      ? Colors.green
+                                      : item.event == AttendanceType.Out
+                                          ? Colors.red
+                                          : themeProvider.hintColor,
+                                ),
+                              ),
+                              title: Text(
+                                DateFormat("hh:mma").format(DateFormat("yyyy-MM-dd HH:mm:ss").parse(item.time)),
+                                style: TextStyles.body(
+                                    context: context,
+                                    color: item.event == AttendanceType.In
+                                        ? Colors.greenAccent.shade700
+                                        : item.event == AttendanceType.Out
+                                            ? Colors.redAccent.shade200
+                                            : themeProvider.textColor),
+                              ),
+                              subtitle: Text(
+                                item.location,
+                                style: TextStyles.caption(context: context, color: themeProvider.hintColor),
+                              ),
+                              trailing: item.event == AttendanceType.Out
+                                  ? Text(
+                                      item.duration,
+                                      style: TextStyles.caption(context: context, color: themeProvider.hintColor),
+                                    )
+                                  : null,
+                              contentPadding: EdgeInsets.zero,
+                            ))
+                        .toList(),
                   ),
                 ),
               ],
@@ -86,8 +108,15 @@ class AttendanceFragment extends StatelessWidget {
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 24),
         child: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.login),
+          onPressed: () {
+            if (attendanceProvider.isCheckedIn) {
+              attendanceProvider.toggleAttendanceStatus();
+            } else {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => CheckIn()));
+            }
+          },
+          backgroundColor: attendanceProvider.isCheckedIn ? Colors.redAccent.shade200 : Colors.greenAccent.shade700,
+          child: Icon(attendanceProvider.isCheckedIn ? Icons.logout : Icons.login),
         ),
       ),
     );

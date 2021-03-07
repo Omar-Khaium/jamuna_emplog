@@ -1,4 +1,4 @@
-import 'package:emplog/model/user.dart';
+import 'package:emplog/model/db/user.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 

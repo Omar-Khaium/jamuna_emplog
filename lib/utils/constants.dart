@@ -12,9 +12,11 @@ enum FormType {
 enum AttendanceType {
   In,
   Out,
+  ShopVisit,
 }
 
 const int tableUser = 0;
+const int tableAttendance = 1;
 
 const List<Color> themeColors = [
   Colors.purple,

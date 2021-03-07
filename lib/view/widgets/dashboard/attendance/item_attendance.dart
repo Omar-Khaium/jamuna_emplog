@@ -1,5 +1,5 @@
 /*
-import 'package:emplog/model/attendance_item.dart' as model;
+import 'package:emplog/model/pretty_attendance_item.dart' as model;
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/constants.dart';
 import 'package:emplog/utils/text_styles.dart';
