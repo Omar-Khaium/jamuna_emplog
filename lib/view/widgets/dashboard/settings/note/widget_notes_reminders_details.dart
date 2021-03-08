@@ -69,6 +69,7 @@ class _NoteDetailsState extends State<NoteDetails> {
             ),
           ),
           Wrap(
+            spacing: 8,
             children: [
               ActionChip(
                 visualDensity: VisualDensity.compact,
@@ -140,6 +141,16 @@ class _NoteDetailsState extends State<NoteDetails> {
                 },
                 backgroundColor: themeProvider.accentColor.withOpacity(.08),
               ),
+              ActionChip(
+                  backgroundColor: themeProvider.accentColor.withOpacity(.08),
+                  visualDensity: VisualDensity.compact,
+                  avatar: Icon(Icons.add),
+                  onPressed: () {},
+                  label: Text(
+                    "Add template",
+                    style: TextStyles.caption(
+                        context: context, color: themeProvider.textColor),
+                  ))
             ],
           ),
           CheckboxListTile(
@@ -157,25 +168,28 @@ class _NoteDetailsState extends State<NoteDetails> {
               });
             },
           ),
-          ListTile(
-            visualDensity: VisualDensity.compact,
-            contentPadding: EdgeInsets.only(left: 8),
-            leading: Icon(
-              Icons.calendar_today_outlined,
-              color: themeProvider.accentColor,
-            ),
-            title: Container(
-              alignment: Alignment.centerLeft,
-              child: TextButton(
-                  onPressed: () {
-                    _selectDate(context);
-                  },
-                  child: Text(
-                    "${selectedDate.toString()}".split(' ')[0],
-                    textAlign: TextAlign.left,
-                    style: TextStyles.body(
-                        context: context, color: themeProvider.textColor),
-                  )),
+          Visibility(
+            visible: _isChecked,
+            child: ListTile(
+              visualDensity: VisualDensity.compact,
+              contentPadding: EdgeInsets.only(left: 8),
+              leading: Icon(
+                Icons.calendar_today_outlined,
+                color: themeProvider.accentColor,
+              ),
+              title: Container(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                    onPressed: () {
+                      _selectDate(context);
+                    },
+                    child: Text(
+                      "${selectedDate.toString()}".split(' ')[0],
+                      textAlign: TextAlign.left,
+                      style: TextStyles.body(
+                          context: context, color: themeProvider.textColor),
+                    )),
+              ),
             ),
           ),
           SizedBox(
