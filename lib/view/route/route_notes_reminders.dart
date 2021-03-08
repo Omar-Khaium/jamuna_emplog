@@ -1,8 +1,10 @@
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/text_styles.dart';
-import 'package:emplog/view/widgets/dashboard/settings/widget_notes_reminders_details.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+
+import 'file:///E:/Flutter/jamuna_emplog/lib/view/widgets/dashboard/settings/note/widget_notes_reminders_details.dart';
 
 // ignore: must_be_immutable
 class NotesAndRemindersRoute extends StatefulWidget {
@@ -37,7 +39,42 @@ class _NotesAndRemindersRouteState extends State<NotesAndRemindersRoute> {
           itemCount: 10,
           itemBuilder: (BuildContext context, int index) {
             return InkWell(
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Container(
+                          decoration: BoxDecoration(
+                              color: themeProvider.backgroundColor),
+                          width: 300,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Note",
+                                style: TextStyles.caption(
+                                    context: context,
+                                    color: themeProvider.textColor),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                "This is dummy note from Omar Khaium",
+                                maxLines: 2,
+                                style: TextStyles.body(
+                                    context: context,
+                                    color: themeProvider.textColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              },
               child: Container(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -48,7 +85,7 @@ class _NotesAndRemindersRouteState extends State<NotesAndRemindersRoute> {
                           ? Icon(Icons.alarm_on_outlined)
                           : Icon(Icons.note_outlined),
                       title: Text(
-                        "This is dummy note from Omar Farooq",
+                        "This is dummy note from Omar Khaium",
                         maxLines: 2,
                         style: TextStyles.body(
                             context: context, color: themeProvider.textColor),
