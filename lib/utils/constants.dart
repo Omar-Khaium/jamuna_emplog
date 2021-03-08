@@ -9,12 +9,6 @@ enum FormType {
   password,
 }
 
-enum AttendanceType {
-  In,
-  Out,
-  ShopVisit,
-}
-
 const int tableUser = 0;
 const int tableAttendance = 1;
 

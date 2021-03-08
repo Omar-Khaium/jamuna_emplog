@@ -22,7 +22,7 @@ class AttendanceAdapter extends TypeAdapter<Attendance> {
       latitude: fields[2] as double,
       longitude: fields[3] as double,
       location: fields[4] as String,
-      event: fields[5] as AttendanceType,
+      event: fields[5] as String,
       duration: fields[6] as String,
       picture: fields[7] as String,
     );

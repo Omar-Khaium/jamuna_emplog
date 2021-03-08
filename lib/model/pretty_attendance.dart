@@ -1,5 +1,4 @@
 import 'package:emplog/model/pretty_attendance_item.dart';
-import 'package:emplog/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class PrettyAttendance {
@@ -8,7 +7,7 @@ class PrettyAttendance {
   double latitude;
   double longitude;
   String location;
-  AttendanceType event;
+  String event;
   String duration;
   String picture;
   List<PrettyAttendanceItem> items = [];

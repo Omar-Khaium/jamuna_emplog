@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:emplog/model/db/attendance.dart';
 import 'package:emplog/model/outlet.dart';
+import 'package:emplog/model/shop.dart';
 import 'package:emplog/provider/provider_attendance.dart';
 import 'package:emplog/provider/provider_internet.dart';
 import 'package:emplog/provider/provider_theme.dart';
@@ -17,10 +18,10 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
-class CheckIn extends StatelessWidget {
+class VisitShop extends StatelessWidget {
   final Function onSubmit;
 
-  CheckIn({@required this.onSubmit});
+  VisitShop({@required this.onSubmit});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class CheckIn extends StatelessWidget {
         backgroundColor: themeProvider.backgroundColor,
         appBar: AppBar(
           backgroundColor: themeProvider.backgroundColor,
-          title: Text("Check In", style: TextStyles.title(context: context, color: themeProvider.accentColor)),
+          title: Text("Visit shop", style: TextStyles.title(context: context, color: themeProvider.accentColor)),
           centerTitle: false,
           automaticallyImplyLeading: true,
           brightness: Brightness.light,
@@ -55,14 +56,14 @@ class CheckIn extends StatelessWidget {
             )
           ],
         ),
-        body: attendanceProvider.getAllOutlets().isEmpty
+        body: attendanceProvider.getAllShops().isEmpty
             ? Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.closed_caption_disabled_outlined, size: 72),
                     SizedBox(height: 24),
-                    Text("No outlet found inside ${attendanceProvider.distanceFilter.toStringAsFixed(2)}m"),
+                    Text("No shop found inside ${attendanceProvider.distanceFilter.toStringAsFixed(2)}m"),
                   ],
                 ),
               )
@@ -72,12 +73,12 @@ class CheckIn extends StatelessWidget {
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  Outlet outlet = attendanceProvider.getAllOutlets()[index];
+                  Shop shop = attendanceProvider.getAllShops()[index];
                   return ListTile(
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(48),
                       child: CachedNetworkImage(
-                        imageUrl: outlet.logo,
+                        imageUrl: shop.logo,
                         fit: BoxFit.cover,
                         width: 48,
                         height: 48,
@@ -85,9 +86,9 @@ class CheckIn extends StatelessWidget {
                         errorWidget: (context, url, error) => Icon(Icons.person, color: themeProvider.accentColor),
                       ),
                     ),
-                    title: Text(outlet.branch, style: TextStyles.body(context: context, color: themeProvider.textColor)),
-                    subtitle: Text(outlet.branchType, style: TextStyles.caption(context: context, color: themeProvider.hintColor)),
-                    trailing: Text(prettyDistance(calculateDistance(outlet.latitude, outlet.longitude, fakeLatitude, fakeLongitude)),
+                    title: Text(shop.name, style: TextStyles.body(context: context, color: themeProvider.textColor)),
+                    subtitle: Text(shop.contactPerson, style: TextStyles.caption(context: context, color: themeProvider.hintColor)),
+                    trailing: Text(prettyDistance(calculateDistance(shop.latitude, shop.longitude, fakeLatitude, fakeLongitude)),
                         style: TextStyles.caption(context: context, color: themeProvider.hintColor)),
                     onTap: () async {
                       ImagePicker picker = ImagePicker();
@@ -101,19 +102,19 @@ class CheckIn extends StatelessWidget {
                             dateTime: DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now()),
                             latitude: attendanceProvider.currentLocation.latitude,
                             longitude: attendanceProvider.currentLocation.longitude,
-                            location: outlet.branch,
-                            event: "In",
+                            location: shop.name,
+                            event: "ShopVisit",
                             duration: "",
                             picture: localFile.path);
 
-                        attendanceProvider.checkIn(attendance, internetProvider.notConnected);
+                        attendanceProvider.visitShop(attendance, internetProvider.notConnected);
                         Navigator.of(context).pop();
                         onSubmit();
                       }
                     },
                   );
                 },
-                itemCount: attendanceProvider.getAllOutlets().length,
+                itemCount: attendanceProvider.getAllShops().length,
               ),
       ),
     );

@@ -17,7 +17,7 @@ class Attendance {
   @HiveField(4)
   String location;
   @HiveField(5)
-  AttendanceType event;
+  String event;
   @HiveField(6)
   String duration;
   @HiveField(7)

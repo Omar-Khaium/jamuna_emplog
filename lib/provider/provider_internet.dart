@@ -10,17 +10,8 @@ class InternetProvider extends ChangeNotifier {
 
   listen() async {
     DataConnectionChecker().onStatusChange.listen((event) {
-      print(event);
-      switch (event) {
-        case DataConnectionStatus.disconnected:
-          _hasInternet = false;
-          notifyListeners();
-          break;
-        case DataConnectionStatus.connected:
-          _hasInternet = true;
-          notifyListeners();
-          break;
-      }
+      _hasInternet = event==DataConnectionStatus.connected;
+      notifyListeners();
     });
   }
 }

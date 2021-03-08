@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class Shop {
   String guid;
   String name;
@@ -8,5 +10,5 @@ class Shop {
   double latitude;
   double longitude;
 
-  Shop({this.guid, this.name, this.logo, this.address, this.phone, this.contactPerson, this.latitude, this.longitude});
+  Shop({@required this.guid, @required this.name, @required this.logo, @required this.address, @required this.phone, @required this.contactPerson, this.latitude, this.longitude});
 }

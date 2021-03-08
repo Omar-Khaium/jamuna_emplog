@@ -9,8 +9,10 @@ import 'package:emplog/view/route/route_auth.dart';
 import 'package:emplog/view/route/route_change_password.dart';
 import 'package:emplog/view/route/route_dashboard.dart';
 import 'package:emplog/view/route/route_notes_reminders.dart';
+import 'package:emplog/view/route/route_shop.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -50,6 +52,7 @@ class MyApp extends StatelessWidget {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             primary: themeProvider.accentColor,
+            shadowColor: themeProvider.tagColor,
             elevation: 4,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
@@ -71,6 +74,7 @@ class MyApp extends StatelessWidget {
         ActivityRoute().route: (context) => ActivityRoute(),
         ChangePasswordRoute().route: (context) => ChangePasswordRoute(),
         NotesAndRemindersRoute().route: (context) => NotesAndRemindersRoute(),
+        ShopDetailsRoute().route: (context) => ShopDetailsRoute(),
       },
     );
   }
@@ -85,6 +89,8 @@ class LauncherRoute extends StatefulWidget {
 class _LauncherRouteState extends State<LauncherRoute> {
   @override
   void initState() {
+    Location().requestPermission();
+    Location().requestService();
     Future.delayed(Duration.zero, () {
       redirect();
     });

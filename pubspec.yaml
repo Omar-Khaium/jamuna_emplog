@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   location:
+  image_picker:
+  url_launcher:
+  maps_launcher:
   provider:
   path_provider:
   http:

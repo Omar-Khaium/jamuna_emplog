@@ -1,4 +1,3 @@
-import 'package:emplog/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class PrettyAttendanceItem {
@@ -7,7 +6,7 @@ class PrettyAttendanceItem {
   double latitude;
   double longitude;
   String location;
-  AttendanceType event;
+  String event;
   String duration;
   String picture;
 

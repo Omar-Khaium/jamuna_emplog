@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:intl/intl.dart';
 
 class Helper {
@@ -72,3 +74,18 @@ DateTime stringToDateTime(String date) {
 String dateTimeToStringDate(DateTime date, String pattern) => DateFormat(pattern).format(date);
 
 String dateTimeToStringTime(DateTime date, String pattern) => DateFormat(pattern).format(date);
+
+double calculateDistance(lat1, lon1, lat2, lon2) {
+  var p = 0.017453292519943295;
+  var c = cos;
+  var a = 0.5 - c((lat2 - lat1) * p) / 2 + c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+  return 12742 * asin(sqrt(a)) * 1000;
+}
+
+String prettyDistance(double meter) {
+  if (meter > 1000) {
+    return "${(meter / 1000).toStringAsFixed(2)}km";
+  }else {
+    return "${(meter).toStringAsFixed(2)}m";
+  }
+}
