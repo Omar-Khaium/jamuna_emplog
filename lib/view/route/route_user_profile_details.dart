@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/text_styles.dart';
+import 'package:emplog/view/widgets/widget_edit_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -23,6 +24,21 @@ class UserDetailsRoute extends StatelessWidget {
           style: TextStyles.title(
               context: context, color: themeProvider.accentColor),
         ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => EditProfile(), fullscreenDialog: true));
+            },
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(48),
+                  color: themeProvider.accentColor.withOpacity(.05)),
+              child: Icon(Icons.edit),
+            ),
+          )
+        ],
       ),
       body: ListView(
         shrinkWrap: true,
@@ -48,7 +64,7 @@ class UserDetailsRoute extends StatelessWidget {
             visualDensity: VisualDensity.compact,
             leading: Icon(Icons.person),
             title: Text(
-              "John Doe",
+              "Md.Parves Kawser",
               style: TextStyles.body(
                   context: context, color: themeProvider.textColor),
             ),
