@@ -26,6 +26,7 @@ dependencies:
   timelines:
   local_auth:
   data_connection_checker:
+  percent_indicator:
 
 dev_dependencies:
   flutter_test:

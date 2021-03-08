@@ -8,8 +8,8 @@ import 'package:emplog/view/route/route_activity_log.dart';
 import 'package:emplog/view/route/route_auth.dart';
 import 'package:emplog/view/route/route_change_password.dart';
 import 'package:emplog/view/route/route_dashboard.dart';
-import 'package:emplog/view/route/route_notes_reminders.dart';
 import 'package:emplog/view/route/route_shop.dart';
+import 'package:emplog/view/route/route_user_profile_details.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:location/location.dart';
@@ -73,8 +73,8 @@ class MyApp extends StatelessWidget {
         DashboardRoute().route: (context) => DashboardRoute(),
         ActivityRoute().route: (context) => ActivityRoute(),
         ChangePasswordRoute().route: (context) => ChangePasswordRoute(),
-        NotesAndRemindersRoute().route: (context) => NotesAndRemindersRoute(),
         ShopDetailsRoute().route: (context) => ShopDetailsRoute(),
+        UserDetailsRoute().route: (context) => UserDetailsRoute(),
       },
     );
   }

@@ -1,10 +1,10 @@
 import 'dart:collection';
 
 import 'package:emplog/model/db/attendance.dart';
+import 'package:emplog/model/db/user.dart';
 import 'package:emplog/model/outlet.dart';
 import 'package:emplog/model/pretty_attendance.dart';
 import 'package:emplog/model/pretty_attendance_item.dart';
-import 'package:emplog/model/db/user.dart';
 import 'package:emplog/model/shop.dart';
 import 'package:emplog/utils/fake_database.dart';
 import 'package:emplog/utils/helper.dart';
@@ -63,8 +63,8 @@ class AttendanceProvider extends ChangeNotifier {
 
   trackLocation() async {
     Location()
-      ..changeSettings(accuracy: LocationAccuracy.NAVIGATION, distanceFilter: 1)
-      ..onLocationChanged().listen((event) {
+      ..changeSettings(accuracy: LocationAccuracy.navigation, distanceFilter: 1)
+      ..onLocationChanged.listen((event) {
         currentLocation = event;
         notifyListeners();
       });
@@ -75,9 +75,11 @@ class AttendanceProvider extends ChangeNotifier {
     list.sort((a, b) => b.dateTime.compareTo(a.dateTime));
     list = parseHistory(list);
     list.forEach((element) {
-      element.items.sort((a, b) => DateFormat("yyyy-MM-dd HH:mm:ss").parse(b.time).compareTo(DateFormat("yyyy-MM-dd HH:mm:ss").parse(a.time)));
+      element.items.sort((a, b) => DateFormat("yyyy-MM-dd HH:mm:ss")
+          .parse(b.time)
+          .compareTo(DateFormat("yyyy-MM-dd HH:mm:ss").parse(a.time)));
     });
-    isCheckedIn = list.first.items.first.event=="In";
+    isCheckedIn = list.first.items.first.event == "In";
     return list;
   }
 
@@ -95,11 +97,15 @@ class AttendanceProvider extends ChangeNotifier {
       }
     });
     if (useFakeLocation || currentLocation == null) {
-      list.sort(
-          (b, a) => calculateDistance(b.latitude, b.longitude, fakeLatitude, fakeLongitude).compareTo(calculateDistance(a.latitude, a.longitude, fakeLatitude, fakeLongitude)));
+      list.sort((b, a) => calculateDistance(
+              b.latitude, b.longitude, fakeLatitude, fakeLongitude)
+          .compareTo(calculateDistance(
+              a.latitude, a.longitude, fakeLatitude, fakeLongitude)));
     } else {
-      list.sort((b, a) => calculateDistance(b.latitude, b.longitude, fakeLatitude, fakeLongitude)
-          .compareTo(calculateDistance(a.latitude, a.longitude, currentLocation.longitude, currentLocation.longitude)));
+      list.sort((b, a) => calculateDistance(
+              b.latitude, b.longitude, fakeLatitude, fakeLongitude)
+          .compareTo(calculateDistance(a.latitude, a.longitude,
+              currentLocation.longitude, currentLocation.longitude)));
     }
     return list;
   }
@@ -118,11 +124,15 @@ class AttendanceProvider extends ChangeNotifier {
       }
     });
     if (useFakeLocation || currentLocation == null) {
-      list.sort(
-          (b, a) => calculateDistance(b.latitude, b.longitude, fakeLatitude, fakeLongitude).compareTo(calculateDistance(a.latitude, a.longitude, fakeLatitude, fakeLongitude)));
+      list.sort((b, a) => calculateDistance(
+              b.latitude, b.longitude, fakeLatitude, fakeLongitude)
+          .compareTo(calculateDistance(
+              a.latitude, a.longitude, fakeLatitude, fakeLongitude)));
     } else {
-      list.sort((b, a) => calculateDistance(b.latitude, b.longitude, fakeLatitude, fakeLongitude)
-          .compareTo(calculateDistance(a.latitude, a.longitude, currentLocation.longitude, currentLocation.longitude)));
+      list.sort((b, a) => calculateDistance(
+              b.latitude, b.longitude, fakeLatitude, fakeLongitude)
+          .compareTo(calculateDistance(a.latitude, a.longitude,
+              currentLocation.longitude, currentLocation.longitude)));
     }
     return list;
   }
@@ -140,7 +150,10 @@ class AttendanceProvider extends ChangeNotifier {
 
     attendanceList.forEach((attendance) {
       int position = list.indexWhere((element) {
-            return stringToDateTime(element.dateTime).difference(stringToDateTime(attendance.dateTime)).inDays == 0;
+            return stringToDateTime(element.dateTime)
+                    .difference(stringToDateTime(attendance.dateTime))
+                    .inDays ==
+                0;
           }) ??
           -1;
 
@@ -193,7 +206,7 @@ class AttendanceProvider extends ChangeNotifier {
   }
 
   checkIn(Attendance attendance, bool isOffline) {
-    if(isOffline) {
+    if (isOffline) {
       attendanceBox.add(attendance);
     }
     items[attendance.guid] = PrettyAttendance(
@@ -210,7 +223,7 @@ class AttendanceProvider extends ChangeNotifier {
   }
 
   visitShop(Attendance attendance, bool isOffline) {
-    if(isOffline) {
+    if (isOffline) {
       attendanceBox.add(attendance);
     }
     items[attendance.guid] = PrettyAttendance(
@@ -226,9 +239,11 @@ class AttendanceProvider extends ChangeNotifier {
   }
 
   checkOut(bool offline) {
-    DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(getAll().first.items.first.time);
+    DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss")
+        .parse(getAll().first.items.first.time);
     DateTime now = DateTime.now();
-    String duration = "${now.difference(dateTime).inHours} hours ${now.difference(dateTime).inMinutes} minutes";
+    String duration =
+        "${now.difference(dateTime).inHours} hours ${now.difference(dateTime).inMinutes} minutes";
     Attendance attendance = Attendance(
         guid: now.toIso8601String(),
         dateTime: DateFormat("yyyy-MM-dd HH:mm:ss").format(now),
@@ -238,7 +253,7 @@ class AttendanceProvider extends ChangeNotifier {
         event: "Out",
         duration: duration,
         picture: "");
-    if(offline) {
+    if (offline) {
       attendanceBox.add(attendance);
     }
     items[attendance.guid] = PrettyAttendance(
@@ -252,28 +267,30 @@ class AttendanceProvider extends ChangeNotifier {
         picture: attendance.picture);
     isCheckedIn = false;
     notifyListeners();
-
   }
 
   applyDistanceFilter(double value) {
-    distanceFilter =value;
+    distanceFilter = value;
     notifyListeners();
   }
 
   bool get hasUnSyncedData => attendanceBox.isNotEmpty;
   int get unSyncedData => attendanceBox.length;
   void clearUnSyncedData() {
-    while(attendanceBox.isNotEmpty) {
+    while (attendanceBox.isNotEmpty) {
       attendanceBox.deleteAt(0);
     }
     notifyListeners();
   }
 
   bool isInArea(double lat, double lng) {
-    return calculateDistance(lat, lng, currentLocation.latitude, currentLocation.longitude) <= distanceFilter;
+    return calculateDistance(
+            lat, lng, currentLocation.latitude, currentLocation.longitude) <=
+        distanceFilter;
   }
 
   bool isInMockArea(double lat, double lng) {
-    return calculateDistance(lat, lng, fakeLatitude, fakeLongitude) <= distanceFilter;
+    return calculateDistance(lat, lng, fakeLatitude, fakeLongitude) <=
+        distanceFilter;
   }
 }

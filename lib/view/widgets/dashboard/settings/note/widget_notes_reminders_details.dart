@@ -26,7 +26,7 @@ class _NoteDetailsState extends State<NoteDetails> {
         elevation: 0,
         title: Text(
           "Add Note",
-          style: TextStyles.body(
+          style: TextStyles.title(
               context: context, color: themeProvider.accentColor),
         ),
       ),
@@ -195,11 +195,20 @@ class _NoteDetailsState extends State<NoteDetails> {
           SizedBox(
             height: 24,
           ),
-          ElevatedButton(
-              onPressed: () {},
-              child: Text("Save",
-                  style: TextStyles.body(
-                      context: context, color: themeProvider.backgroundColor))),
+          Container(
+            height: 48,
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: themeProvider.accentColor,
+                    shadowColor: themeProvider.shadowColor,
+                    elevation: 3),
+                onPressed: () {},
+                child: Text("Save",
+                    style: TextStyles.title(
+                        context: context,
+                        color: themeProvider.backgroundColor))),
+          ),
         ],
       ),
     );
