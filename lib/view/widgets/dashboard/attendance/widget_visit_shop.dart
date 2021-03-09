@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:emplog/model/db/attendance.dart';
-import 'package:emplog/model/outlet.dart';
 import 'package:emplog/model/shop.dart';
 import 'package:emplog/provider/provider_attendance.dart';
 import 'package:emplog/provider/provider_internet.dart';
@@ -75,15 +74,42 @@ class VisitShop extends StatelessWidget {
                 itemBuilder: (context, index) {
                   Shop shop = attendanceProvider.getAllShops()[index];
                   return ListTile(
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(48),
-                      child: CachedNetworkImage(
-                        imageUrl: shop.logo,
-                        fit: BoxFit.cover,
-                        width: 48,
-                        height: 48,
-                        placeholder: (context, url) => Center(child: CupertinoActivityIndicator()),
-                        errorWidget: (context, url, error) => Icon(Icons.person, color: themeProvider.accentColor),
+                    tileColor: attendanceProvider.didVisitedThisShopToday(shop.name) ? themeProvider.tagColor : themeProvider.backgroundColor,
+                    leading: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: themeProvider.accentColor, width: attendanceProvider.didVisitedThisShopToday(shop.name) ? 2 : 0),
+                          borderRadius: BorderRadius.circular(40)),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            left: 0,
+                            bottom: 0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(40),
+                              child: CachedNetworkImage(
+                                imageUrl: shop.logo,
+                                fit: BoxFit.cover,
+                                width: 40,
+                                height: 40,
+                                placeholder: (context, url) => Center(child: CupertinoActivityIndicator()),
+                                errorWidget: (context, url, error) => Icon(Icons.store, color: themeProvider.hintColor),
+                              ),
+                            ),
+                          ),
+                          Visibility(
+                            visible: attendanceProvider.didVisitedThisShopToday(shop.name),
+                            child: Positioned(
+                              child: CircleAvatar(child: Icon(Icons.check, color: themeProvider.backgroundColor, size: 12), backgroundColor: themeProvider.accentColor, radius: 8),
+                              bottom: -4,
+                              right: -4,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     title: Text(shop.name, style: TextStyles.body(context: context, color: themeProvider.textColor)),
@@ -91,25 +117,37 @@ class VisitShop extends StatelessWidget {
                     trailing: Text(prettyDistance(calculateDistance(shop.latitude, shop.longitude, fakeLatitude, fakeLongitude)),
                         style: TextStyles.caption(context: context, color: themeProvider.hintColor)),
                     onTap: () async {
-                      ImagePicker picker = ImagePicker();
-                      PickedFile file = await picker.getImage(source: ImageSource.camera);
-                      Directory directory = await getApplicationDocumentsDirectory();
-                      File localFile = File("${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg");
-                      await localFile.writeAsBytes(await file.readAsBytes(), flush: true);
-                      if (localFile != null) {
-                        Attendance attendance = Attendance(
-                            guid: DateTime.now().toIso8601String(),
-                            dateTime: DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now()),
-                            latitude: attendanceProvider.currentLocation.latitude,
-                            longitude: attendanceProvider.currentLocation.longitude,
-                            location: shop.name,
-                            event: "ShopVisit",
-                            duration: "",
-                            picture: localFile.path);
+                      if (attendanceProvider.didVisitedThisShopToday(shop.name)) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text("Warning", style: TextStyles.subTitle(context: context, color: themeProvider.textColor)),
+                                  content: Text("This shop is already visited by you at ${DateFormat("hh:mma").format(DateFormat("yyyy-MM-dd HH:mm:ss").parse(attendanceProvider
+                                          .lastShopVisitTime(shop.name)))}.", style: 
+                                  TextStyles.body(context: context, color: themeProvider
+                                      .textColor)),
+                                ));
+                      } else {
+                        ImagePicker picker = ImagePicker();
+                        PickedFile file = await picker.getImage(source: ImageSource.camera);
+                        Directory directory = await getApplicationDocumentsDirectory();
+                        File localFile = File("${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg");
+                        await localFile.writeAsBytes(await file.readAsBytes(), flush: true);
+                        if (localFile != null) {
+                          Attendance attendance = Attendance(
+                              guid: DateTime.now().toIso8601String(),
+                              dateTime: DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now()),
+                              latitude: attendanceProvider.currentLocation.latitude,
+                              longitude: attendanceProvider.currentLocation.longitude,
+                              location: shop.name,
+                              event: "ShopVisit",
+                              duration: "",
+                              picture: localFile.path);
 
-                        attendanceProvider.visitShop(attendance, internetProvider.notConnected);
-                        Navigator.of(context).pop();
-                        onSubmit();
+                          attendanceProvider.visitShop(attendance, internetProvider.notConnected, shop.guid);
+                          Navigator.of(context).pop();
+                          onSubmit();
+                        }
                       }
                     },
                   );

@@ -1,3 +1,4 @@
+import 'package:emplog/provider/provider_attendance.dart';
 import 'package:emplog/provider/provider_internet.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/text_styles.dart';
@@ -31,7 +32,14 @@ class _DashboardRouteState extends State<DashboardRoute> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final internetProvider = Provider.of<InternetProvider>(context);
+    final attendanceProvider = Provider.of<AttendanceProvider>(context);
     internetProvider.listen();
+
+    Future.delayed(Duration(milliseconds: 0),(){
+      attendanceProvider.trackLocation();
+      attendanceProvider.trackNearbyOutlet();
+      attendanceProvider.trackNearbyShop();
+    });
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
       child: Scaffold(

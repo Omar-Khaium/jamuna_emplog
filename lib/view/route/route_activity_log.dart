@@ -1,3 +1,4 @@
+import 'package:emplog/provider/provider_attendance.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,14 @@ class ActivityRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final attendanceProvider = Provider.of<AttendanceProvider>(context);
+
+    Future.delayed(Duration(milliseconds: 0),(){
+      attendanceProvider.trackLocation();
+      attendanceProvider.trackNearbyOutlet();
+      attendanceProvider.trackNearbyShop();
+    });
+
     return Scaffold(
       backgroundColor: themeProvider.backgroundColor,
       appBar: AppBar(

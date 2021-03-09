@@ -3,6 +3,7 @@ import 'package:emplog/provider/provider_attendance.dart';
 import 'package:emplog/provider/provider_internet.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/utils/text_styles.dart';
+import 'package:emplog/view/route/route_attendance_details.dart';
 import 'package:emplog/view/widgets/dashboard/attendance/widget_checkin.dart';
 import 'package:emplog/view/widgets/dashboard/attendance/widget_visit_shop.dart';
 import 'package:flutter/material.dart';
@@ -83,6 +84,9 @@ class AttendanceFragment extends StatelessWidget {
                           .map((item) => ListTile(
                                 visualDensity: VisualDensity.compact,
                                 dense: true,
+                                onTap: (){
+                                  Navigator.of(context).pushNamed(AttendanceDetailsRoute().route, arguments: item.guid);
+                                },
                                 leading: CircleAvatar(
                                   backgroundColor: item.event == "In"
                                       ? Colors.green.shade50
@@ -159,12 +163,12 @@ class AttendanceFragment extends StatelessWidget {
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop();
+                                attendanceProvider.checkOut(internetProvider.notConnected);
                               },
                               child: Text("Check out", style: TextStyles.body(context: context, color: themeProvider.backgroundColor)),
                             ),
                           ],
                         ));
-                attendanceProvider.checkOut(internetProvider.notConnected);
               } else {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => CheckIn(

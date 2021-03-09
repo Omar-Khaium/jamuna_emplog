@@ -5,6 +5,7 @@ import 'package:emplog/provider/provider_auth.dart';
 import 'package:emplog/provider/provider_internet.dart';
 import 'package:emplog/provider/provider_theme.dart';
 import 'package:emplog/view/route/route_activity_log.dart';
+import 'package:emplog/view/route/route_attendance_details.dart';
 import 'package:emplog/view/route/route_auth.dart';
 import 'package:emplog/view/route/route_change_password.dart';
 import 'package:emplog/view/route/route_dashboard.dart';
@@ -75,6 +76,7 @@ class MyApp extends StatelessWidget {
         ChangePasswordRoute().route: (context) => ChangePasswordRoute(),
         ShopDetailsRoute().route: (context) => ShopDetailsRoute(),
         UserDetailsRoute().route: (context) => UserDetailsRoute(),
+        AttendanceDetailsRoute().route: (context) => AttendanceDetailsRoute(),
       },
     );
   }
@@ -87,8 +89,11 @@ class LauncherRoute extends StatefulWidget {
 }
 
 class _LauncherRouteState extends State<LauncherRoute> {
+
+
   @override
   void initState() {
+
     Location().requestPermission();
     Location().requestService();
     Future.delayed(Duration.zero, () {

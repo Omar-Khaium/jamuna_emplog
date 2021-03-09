@@ -37,13 +37,10 @@ class Information extends StatelessWidget {
           SizedBox(height: 16),
           ListTile(
             leading: Icon(Icons.location_pin, color: themeProvider.textColor),
-            title: Text(shop.address,
-                style: TextStyles.body(
-                    context: context, color: themeProvider.textColor)),
+            title: Text(shop.address, style: TextStyles.body(context: context, color: themeProvider.textColor)),
             subtitle: Text(
                 "${prettyDistance(calculateDistance(shop.latitude, shop.longitude, attendanceProvider.currentLocation.latitude, attendanceProvider.currentLocation.longitude))} away",
-                style: TextStyles.caption(
-                    context: context, color: themeProvider.hintColor)),
+                style: TextStyles.caption(context: context, color: themeProvider.hintColor)),
             trailing: Icon(
               Icons.directions,
               color: themeProvider.accentColor,
@@ -56,15 +53,11 @@ class Information extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.person, color: themeProvider.textColor),
-            title: Text(shop.contactPerson,
-                style: TextStyles.body(
-                    context: context, color: themeProvider.textColor)),
+            title: Text(shop.contactPerson, style: TextStyles.body(context: context, color: themeProvider.textColor)),
           ),
           ListTile(
             leading: Icon(Icons.phone, color: themeProvider.textColor),
-            title: Text(shop.phone,
-                style: TextStyles.body(
-                    context: context, color: themeProvider.textColor)),
+            title: Text(shop.phone, style: TextStyles.body(context: context, color: themeProvider.textColor)),
             onTap: () {
               launch("tel:${shop.phone}");
             },
@@ -74,14 +67,9 @@ class Information extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: themeProvider.backgroundColor,
-                  shadowColor: themeProvider.accentColor,
-                  elevation: 3),
+              style: ElevatedButton.styleFrom(primary: themeProvider.backgroundColor, shadowColor: themeProvider.accentColor, elevation: 3),
               onPressed: () {},
-              child: Text("Add Estimate",
-                  style: TextStyles.subTitle(
-                      context: context, color: themeProvider.accentColor)),
+              child: Text("Add Estimate", style: TextStyles.subTitle(context: context, color: themeProvider.accentColor)),
             ),
             width: MediaQuery.of(context).size.width,
             height: 48,
@@ -90,27 +78,18 @@ class Information extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: themeProvider.backgroundColor,
-                  shadowColor: themeProvider.accentColor,
-                  elevation: 3),
+              style: ElevatedButton.styleFrom(primary: themeProvider.backgroundColor, shadowColor: themeProvider.accentColor, elevation: 3),
               onPressed: () async {
-                if (attendanceProvider.isInArea(
-                    shop.latitude, shop.longitude)) {
+                if (attendanceProvider.isInArea(shop.latitude, shop.longitude)) {
                   ImagePicker picker = ImagePicker();
-                  PickedFile file =
-                      await picker.getImage(source: ImageSource.camera);
-                  Directory directory =
-                      await getApplicationDocumentsDirectory();
-                  File localFile = File(
-                      "${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg");
-                  await localFile.writeAsBytes(await file.readAsBytes(),
-                      flush: true);
+                  PickedFile file = await picker.getImage(source: ImageSource.camera);
+                  Directory directory = await getApplicationDocumentsDirectory();
+                  File localFile = File("${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg");
+                  await localFile.writeAsBytes(await file.readAsBytes(), flush: true);
                   if (localFile != null) {
                     Attendance attendance = Attendance(
                         guid: DateTime.now().toIso8601String(),
-                        dateTime: DateFormat("yyyy-MM-dd HH:mm:ss")
-                            .format(DateTime.now()),
+                        dateTime: DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.now()),
                         latitude: attendanceProvider.currentLocation.latitude,
                         longitude: attendanceProvider.currentLocation.longitude,
                         location: shop.name,
@@ -118,34 +97,21 @@ class Information extends StatelessWidget {
                         duration: "",
                         picture: localFile.path);
 
-                    attendanceProvider.visitShop(
-                        attendance, internetProvider.notConnected);
+                    attendanceProvider.visitShop(attendance, internetProvider.notConnected, shop.guid );
                     if (internetProvider.connected) {
                       showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                                title: Text("Success",
-                                    style: TextStyles.subTitle(
-                                        context: context,
-                                        color: themeProvider.accentColor)),
-                                content: Text("Checked-in successfully",
-                                    style: TextStyles.body(
-                                        context: context,
-                                        color: themeProvider.textColor)),
+                                title: Text("Success", style: TextStyles.subTitle(context: context, color: themeProvider.accentColor)),
+                                content: Text("Checked-in successfully", style: TextStyles.body(context: context, color: themeProvider.textColor)),
                               ));
                     } else {
                       showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                                title: Text("Success",
-                                    style: TextStyles.subTitle(
-                                        context: context,
-                                        color: themeProvider.accentColor)),
-                                content: Text(
-                                    "You've checked-in on offline mode. Please sync the activity once internet is available",
-                                    style: TextStyles.body(
-                                        context: context,
-                                        color: themeProvider.textColor)),
+                                title: Text("Success", style: TextStyles.subTitle(context: context, color: themeProvider.accentColor)),
+                                content: Text("You've checked-in on offline mode. Please sync the activity once internet is available",
+                                    style: TextStyles.body(context: context, color: themeProvider.textColor)),
                               ));
                     }
                   }
@@ -153,21 +119,13 @@ class Information extends StatelessWidget {
                   showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                            title: Text("Oops!",
-                                style: TextStyles.subTitle(
-                                    context: context,
-                                    color: themeProvider.textColor)),
-                            content: Text(
-                                "It seems that you are not in ${prettyDistance(attendanceProvider.distanceFilter)} radius of \"${shop.name}\"",
-                                style: TextStyles.body(
-                                    context: context,
-                                    color: themeProvider.textColor)),
+                            title: Text("Oops!", style: TextStyles.subTitle(context: context, color: themeProvider.textColor)),
+                            content: Text("It seems that you are not in ${prettyDistance(attendanceProvider.distanceFilter)} radius of \"${shop.name}\"",
+                                style: TextStyles.body(context: context, color: themeProvider.textColor)),
                           ));
                 }
               },
-              child: Text("Check in",
-                  style: TextStyles.subTitle(
-                      context: context, color: themeProvider.accentColor)),
+              child: Text("Check in", style: TextStyles.subTitle(context: context, color: themeProvider.accentColor)),
             ),
             width: MediaQuery.of(context).size.width,
             height: 48,

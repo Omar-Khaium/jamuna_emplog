@@ -87,24 +87,51 @@ class _ShopsFragmentState extends State<ShopsFragment> {
                   return ListTile(
                     visualDensity: VisualDensity.compact,
                     dense: true,
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(42),
-                      child: CachedNetworkImage(
-                        imageUrl: shop.logo,
-                        fit: BoxFit.cover,
-                        width: 42,
-                        height: 42,
-                        placeholder: (context, url) => Center(child: CupertinoActivityIndicator()),
-                        errorWidget: (context, url, error) => Icon(Icons.store, color: themeProvider.hintColor),
+                    tileColor: attendanceProvider.didVisitedThisShopToday(shop.name) ? themeProvider.tagColor : themeProvider.backgroundColor,
+                    leading: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(border: Border.all(color: themeProvider.accentColor, width: attendanceProvider.didVisitedThisShopToday(shop.name) ? 2 : 0),
+                          borderRadius: BorderRadius.circular(40)),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            left: 0,
+                            bottom: 0,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(40),
+                              child: CachedNetworkImage(
+                                imageUrl: shop.logo,
+                                fit: BoxFit.cover,
+                                width: 40,
+                                height: 40,
+                                placeholder: (context, url) => Center(child: CupertinoActivityIndicator()),
+                                errorWidget: (context, url, error) => Icon(Icons.store, color: themeProvider.hintColor),
+                              ),
+                            ),
+                          ),
+                          Visibility(
+                            visible: attendanceProvider.didVisitedThisShopToday(shop.name),
+                            child: Positioned(
+                              child: CircleAvatar(child: Icon(Icons.check, color: themeProvider.backgroundColor, size: 12), backgroundColor: themeProvider.accentColor, radius: 8),
+                              bottom: -4,
+                              right: -4,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     title: Text(shop.name, style: TextStyles.body(context: context, color: themeProvider.textColor)),
                     subtitle: Text(shop.address, style: TextStyles.caption(context: context, color: themeProvider.hintColor)),
-                    trailing: attendanceProvider.currentLocation!=null ? Text("${prettyDistance(calculateDistance(shop.latitude, shop.longitude, attendanceProvider.currentLocation
-                      .latitude,
-                        attendanceProvider
-                        .currentLocation.longitude))} away", style: TextStyles.caption(context: context, color: themeProvider.hintColor)) : null,
-                    onTap: (){
+                    trailing: attendanceProvider.currentLocation != null
+                        ? Text(
+                            "${prettyDistance(calculateDistance(shop.latitude, shop.longitude, attendanceProvider.currentLocation.latitude, attendanceProvider.currentLocation.longitude))} away",
+                            style: TextStyles.caption(context: context, color: themeProvider.hintColor))
+                        : null,
+                    onTap: () {
                       Navigator.of(context).pushNamed(ShopDetailsRoute().route, arguments: shop.guid);
                     },
                   );

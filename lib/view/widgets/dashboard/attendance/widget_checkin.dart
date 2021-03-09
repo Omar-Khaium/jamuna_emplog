@@ -82,7 +82,7 @@ class CheckIn extends StatelessWidget {
                         width: 48,
                         height: 48,
                         placeholder: (context, url) => Center(child: CupertinoActivityIndicator()),
-                        errorWidget: (context, url, error) => Icon(Icons.person, color: themeProvider.accentColor),
+                        errorWidget: (context, url, error) => Icon(Icons.store, color: themeProvider.hintColor),
                       ),
                     ),
                     title: Text(outlet.branch, style: TextStyles.body(context: context, color: themeProvider.textColor)),
@@ -106,7 +106,7 @@ class CheckIn extends StatelessWidget {
                             duration: "",
                             picture: localFile.path);
 
-                        attendanceProvider.checkIn(attendance, internetProvider.notConnected);
+                        attendanceProvider.checkIn(attendance, internetProvider.notConnected, outlet.guid);
                         Navigator.of(context).pop();
                         onSubmit();
                       }
